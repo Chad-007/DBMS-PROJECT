@@ -18,16 +18,22 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://192.168.46.122:7000/api/users/dashboard",
+          "http://192.168.46.122:7000/api/users/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
+
+        console.log("Fetched user data:", response.data); // Debugging line
+
         setUserData(response.data);
       } catch (error) {
-        console.error("Error fetching user data", error);
+        console.error(
+          "Error fetching user data",
+          error.response?.data || error.message
+        );
       } finally {
         setLoading(false);
       }
@@ -44,16 +50,21 @@ const Dashboard = () => {
         Welcome, {userData.name}!
       </Typography>
       <Typography variant="h6" gutterBottom>
-        Your Plans
+        Your Profile
       </Typography>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+      <Typography variant="body1">Height: {userData.height} cm</Typography>
+      <Typography variant="body1">Weight: {userData.weight} kg</Typography>
+      <Typography variant="body1">
+        Fitness Goal: {userData.fitnessGoal}
+      </Typography>
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
         <Button
           variant="contained"
           component={Link}
           to="/workoutplans"
           color="primary"
         >
-          View Workout Plans
+          View Workout Plan
         </Button>
         <Button
           variant="contained"
@@ -85,7 +96,7 @@ const Dashboard = () => {
           to="/userdetails"
           color="secondary"
         >
-          User Details
+          Update User Details
         </Button>
       </Box>
     </Container>

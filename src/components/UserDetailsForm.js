@@ -18,7 +18,7 @@ const fitnessGoals = [
   "Maintain Weight",
 ];
 
-const UserDetails = ({ onSave }) => {
+const UserDetailsForm = ({ onSave }) => {
   const [name, setName] = useState("");
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
@@ -27,56 +27,49 @@ const UserDetails = ({ onSave }) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Function to get the token from local storage or context
   const getToken = () => {
-    return localStorage.getItem("token"); // Adjust this based on where you store the token
+    return localStorage.getItem("token");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate inputs
     if (!name || !height || !weight || !goal) {
       setErrorMessage("Please fill out all fields.");
       setOpenSnackbar(true);
       return;
     }
 
-    setLoading(true); // Show loading state
+    setLoading(true);
 
     try {
-      const token = getToken(); // Get the token
+      const token = getToken();
 
       const response = await axios.put(
         "http://192.168.46.122:7000/api/users/details",
         { name, height, weight, fitnessGoal: goal },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token in the headers
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.status === 200) {
         onSave({ name, height, weight, goal });
+      } else {
+        throw new Error("Unexpected response status: " + response.status);
       }
     } catch (error) {
-      console.error("Error saving user details:", error);
-      if (error.response) {
-        console.error("Response data:", error.response.data);
-        console.error("Response status:", error.response.status);
-        setErrorMessage(
-          `Failed to save user details: ${
-            error.response.data.message || "Unknown error"
-          }`
-        );
-      } else {
-        console.error("Error message:", error.message);
-        setErrorMessage("Failed to save user details. Please try again.");
-      }
+      console.error("Error response:", error.response); // Debugging line
+      setErrorMessage(
+        `Failed to save user details: ${
+          error.response?.data?.message || error.message || "Unknown error"
+        }`
+      );
       setOpenSnackbar(true);
     } finally {
-      setLoading(false); // Hide loading state
+      setLoading(false);
     }
   };
 
@@ -155,4 +148,4 @@ const UserDetails = ({ onSave }) => {
   );
 };
 
-export default UserDetails;
+export default UserDetailsForm;
