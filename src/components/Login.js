@@ -23,7 +23,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.46.122:7000/api/users/login",
+        "https://dbms-project-1-rynu.onrender.com/api/users/login",
         formData
       );
       localStorage.setItem("token", response.data.token);
