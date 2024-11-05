@@ -23,7 +23,10 @@ const Signup = () => {
     setError("");
 
     try {
-      await axios.post("http://192.168.46.122:7000/api/users/signup", formData);
+      await axios.post(
+        "https://dbms-project-1-rynu.onrender.com/api/users/signup",
+        formData
+      );
       navigate("/login");
     } catch (error) {
       setError(error.response?.data.message || "Sign-up failed");

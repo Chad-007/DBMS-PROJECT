@@ -46,7 +46,7 @@ const UserDetailsForm = ({ onSave }) => {
       const token = getToken();
 
       const response = await axios.put(
-        "http://192.168.46.122:7000/api/users/details",
+        "https://dbms-project-1-rynu.onrender.com/api/users/details",
         { name, height, weight, fitnessGoal: goal },
         {
           headers: {

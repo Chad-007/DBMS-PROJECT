@@ -18,7 +18,7 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          "http://192.168.46.122:7000/api/users/profile",
+          "https://dbms-project-1-rynu.onrender.com/api/users/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
