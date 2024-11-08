@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Lottie from "react-lottie";
+import animationData from "../assets/animation.json"; // Adjust the path if necessary
 import {
   Container,
   Typography,
@@ -26,7 +28,7 @@ const Dashboard = () => {
           }
         );
 
-        console.log("Fetched user data:", response.data); // Debugging line
+        console.log("Fetched user data:", response.data);
 
         setUserData(response.data);
       } catch (error) {
@@ -44,8 +46,18 @@ const Dashboard = () => {
 
   if (loading) return <CircularProgress />;
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
   return (
     <Container sx={{ mt: 4 }}>
+      <Lottie options={defaultOptions} height={200} width={200} />
       <Typography variant="h4" gutterBottom>
         Welcome, {userData.name}!
       </Typography>
